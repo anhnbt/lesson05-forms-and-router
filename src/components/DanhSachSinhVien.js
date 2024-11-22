@@ -1,6 +1,11 @@
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { FaPlus } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const students = [
   {
@@ -19,34 +24,7 @@ const students = [
 
 function DanhSachSinhVien() {
   const [studentList, setStudentList] = useState(students);
-  const [form, setForm] = useState({
-    ten: "",
-    sdt: "",
-    email: "",
-  });
-
-  const themMoiSinhVien = (sinhVien) => {
-    if (sinhVien.id) {
-      setStudentList([
-        ...studentList.map((item) => {
-          return item.id === sinhVien.id ? { ...sinhVien } : item;
-        }),
-      ]);
-      setForm({
-        ten: "",
-        sdt: "",
-        email: "",
-      });
-    } else {
-      setStudentList([
-        ...studentList,
-        {
-          id: uuidv4(),
-          ...sinhVien,
-        },
-      ]);
-    }
-  };
+  const navigate = useNavigate();
 
   const handleDelete = (id) => {
     if (window.confirm("Bạn có chắc chắc muốn xóa không?")) {
@@ -55,100 +33,12 @@ function DanhSachSinhVien() {
   };
 
   const handleEdit = (id) => {
-    const student = studentList.find((item) => item.id === id);
-    setForm({ ...student });
-  };
+    navigate('/students/' + id);
+  }
 
   return (
-    <div className="container">
+    <div className="">
       <h1>Danh sách sinh viên</h1>
-      <Formik
-        enableReinitialize={true}
-        initialValues={form}
-        validate={(values) => {
-          const errors = {};
-          if (!values.ten) {
-            errors.ten = "Vui lòng nhập tên";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = "Vui lòng nhập đúng địa chỉ email";
-          } else if (
-            !/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/i.test(values.sdt)
-          ) {
-            errors.sdt = "Vui lòng nhập đúng số điện thoại";
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          themMoiSinhVien(values);
-          setSubmitting(false);
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          /* and other goodies */
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <input type="hidden" name="id" value={values.id || ""} />
-            <div className="row mb-1">
-              <label className="col-3" htmlFor="ten">
-                Tên:{" "}
-              </label>
-              <div className="col-9">
-                <input
-                  type="text"
-                  name="ten"
-                  id="ten"
-                  value={values.ten}
-                  onChange={handleChange}
-                />
-                {errors.ten && touched.ten && <span className="ms-2 text-danger">{errors.ten}</span>}
-              </div>
-            </div>
-            <div className="row mb-1">
-              <label className="col-3" htmlFor="email">
-                Email:{" "}
-              </label>
-              <div className="col-9">
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  value={values.email}
-                  onChange={handleChange}
-                />
-                {errors.email && touched.email && <span className="ms-2 text-danger">{errors.email}</span>}
-              </div>
-            </div>
-            <div className="row mb-1">
-              <label className="col-3" htmlFor="sdt">
-                Số điện thoại
-              </label>
-              <div className="col-9">
-                <input
-                  type="text"
-                  name="sdt"
-                  id="sdt"
-                  value={values.sdt}
-                  onChange={handleChange}
-                />
-                {errors.sdt && touched.sdt && <span className="ms-2 text-danger">{errors.sdt}</span>}
-              </div>
-            </div>
-            <button className="btn btn-primary">
-              {form.id ? "Cập nhật" : "Thêm mới"}
-            </button>
-          </form>
-        )}
-      </Formik>
       {studentList.length === 0 ? (
         <div className="alert alert-warning">Không có dữ liệu</div>
       ) : (
@@ -172,13 +62,13 @@ function DanhSachSinhVien() {
                     onClick={() => handleEdit(item.id)}
                     className="btn btn-info"
                   >
-                    Sửa
+                    <FaPencilAlt /> Sửa
                   </button>{" "}
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="btn btn-danger"
                   >
-                    Xóa
+                    <FaTrash /> Xóa
                   </button>
                 </td>
               </tr>
