@@ -19,7 +19,7 @@ const students = [
 function DanhSachSinhVien() {
   const [studentList, setStudentList] = useState(students);
   const [form, setForm] = useState({
-    ten: "WanBi",
+    ten: "",
     sdt: "",
     email: "",
   });
@@ -45,7 +45,9 @@ function DanhSachSinhVien() {
   };
 
   const handleDelete = (id) => {
-    setStudentList([...studentList.filter((item) => item.id !== id)]);
+    if (window.confirm("Bạn có chắc chắc muốn xóa không?")) {
+      setStudentList([...studentList.filter((item) => item.id !== id)]);
+    }
   };
 
   return (
@@ -96,7 +98,7 @@ function DanhSachSinhVien() {
         </div>
         <button className="btn btn-primary">Thêm mới</button>
       </form>
-      {studentList.length < 10 && (
+      {studentList.length === 0 && (
         <div className="alert alert-warning">Không có dữ liệu</div>
       )}
       <table className="table">
@@ -109,8 +111,6 @@ function DanhSachSinhVien() {
           </tr>
         </thead>
         <tbody>
-          {/* () => {} */}
-          {/* (item) => {} */}
           {studentList.map((item) => (
             <tr key={item.id}>
               <td>{item.ten}</td>
