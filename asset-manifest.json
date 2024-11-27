@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/lesson05-forms-and-router/static/css/main.796e29be.css",
+    "main.js": "/lesson05-forms-and-router/static/js/main.46be4f58.js",
+    "static/media/loading.gif": "/lesson05-forms-and-router/static/media/loading.d8b18d7c4a1ba8e15756.gif",
+    "index.html": "/lesson05-forms-and-router/index.html",
+    "main.796e29be.css.map": "/lesson05-forms-and-router/static/css/main.796e29be.css.map",
+    "main.46be4f58.js.map": "/lesson05-forms-and-router/static/js/main.46be4f58.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.796e29be.css",
+    "static/js/main.46be4f58.js"
+  ]
+}
